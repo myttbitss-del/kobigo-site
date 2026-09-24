@@ -1,0 +1,8 @@
+{
+  "name": "KobIgo",
+  "short_name": "KobIgo",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#050807",
+  "theme_color": "#050807"
+}

@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050807">
+<meta name="description" content="KobIgo — мессенджер с вайбом старой ICQ. Android и Web.">
+<title>KobIgo — снова в сети</title>
+<style>
+:root{
+  --bg:#050807;
+  --bg2:#08100c;
+  --panel:#0b120e;
+  --panel2:#0e1812;
+  --line:rgba(107,255,107,.16);
+  --green:#83ff74;
+  --green2:#37d958;
+  --acid:#b6ff3e;
+  --amber:#ffc44d;
+  --text:#f5fff6;
+  --muted:#8ba193;
+  --shadow:0 30px 100px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(900px 620px at 70% -15%,rgba(55,217,88,.13),transparent 62%),
+    radial-gradient(780px 620px at 5% 30%,rgba(182,255,62,.06),transparent 58%),
+    linear-gradient(180deg,#060907 0%,#050807 58%,#040605 100%);
+  overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.08;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.08) 0 1px,transparent 1px 4px);
+}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1180px,calc(100% - 32px));margin:auto}
+.nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(18px);
+  background:rgba(5,8,7,.72);
+  border-bottom:1px solid rgba(131,255,116,.08);
+}
+.navin{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:950;letter-spacing:.02em}
+.brandmark{
+  width:36px;height:36px;border-radius:11px;border:2px solid var(--green);
+  position:relative;box-shadow:0 0 22px rgba(131,255,116,.18),inset 0 0 18px rgba(131,255,116,.06);
+}
+.brandmark:before{
+  content:"";position:absolute;left:9px;top:8px;width:12px;height:10px;
+  border-left:4px solid var(--green);border-bottom:4px solid var(--green);transform:skew(-12deg)
+}
+.brandmark:after{
+  content:"";position:absolute;right:6px;bottom:6px;width:5px;height:5px;background:var(--amber);
+  box-shadow:-8px 0 var(--green)
+}
+.links{display:flex;gap:24px;color:var(--muted);font-size:14px}
+.links a:hover{color:var(--green)}
+.status{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:900;color:var(--green)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 15px var(--green);animation:blink 1.3s steps(1) infinite}
+@keyframes blink{50%{opacity:.35}}
+
+.hero{
+  min-height:760px;display:grid;grid-template-columns:1.02fr .98fr;
+  align-items:center;gap:72px;padding:68px 0 78px;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:8px 11px;border:1px solid rgba(131,255,116,.18);
+  border-radius:999px;background:rgba(131,255,116,.04);
+  color:var(--green);font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;
+  text-transform:uppercase;letter-spacing:.12em
+}
+.eyebrow i{width:6px;height:6px;background:var(--amber);box-shadow:0 0 12px var(--amber)}
+h1{
+  margin:24px 0 18px;font-size:clamp(64px,8vw,116px);line-height:.87;
+  font-weight:1000;letter-spacing:-.075em
+}
+h1 .igo{color:var(--green);text-shadow:0 0 34px rgba(131,255,116,.15)}
+.heroTitle{font-size:clamp(21px,2.4vw,31px);line-height:1.22;font-weight:850;letter-spacing:-.03em;max-width:680px}
+.heroTitle .yellow{color:var(--amber)}
+.lead{max-width:650px;margin-top:17px;color:var(--muted);font-size:16px;line-height:1.72}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.btn{
+  min-height:54px;padding:0 20px;border-radius:14px;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  border:1px solid #1b2d20;background:#0a110d;font-weight:900;
+  transition:.18s ease
+}
+.btn:hover{transform:translateY(-2px);border-color:#355e3e}
+.btn.primary{
+  background:var(--amber);color:#161006;border-color:var(--amber);
+  box-shadow:0 14px 42px rgba(255,196,77,.16)
+}
+.btn.green{
+  background:var(--green);color:#061006;border-color:var(--green);
+  box-shadow:0 14px 42px rgba(131,255,116,.14)
+}
+.quickmeta{margin-top:15px;color:#647468;font:700 11px ui-monospace,monospace}
+
+.phoneStage{position:relative;display:flex;align-items:center;justify-content:center;min-height:620px}
+.ringA,.ringB,.ringC{
+  position:absolute;border-radius:50%;border:1px solid rgba(131,255,116,.12)
+}
+.ringA{width:560px;height:560px;box-shadow:0 0 100px rgba(55,217,88,.045)}
+.ringB{width:455px;height:455px;border-style:dashed;animation:spin 22s linear infinite}
+.ringC{width:350px;height:350px;border-color:rgba(255,196,77,.1);animation:spin2 28s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes spin2{to{transform:rotate(-360deg)}}
+.pulse{
+  position:absolute;inset:16% 9%;border-radius:50%;
+  background:radial-gradient(circle,rgba(66,255,98,.14),rgba(66,255,98,.03) 42%,transparent 68%);
+  filter:blur(6px)
+}
+.phone{
+  width:min(346px,88vw);aspect-ratio:9/19.3;
+  padding:10px;border-radius:44px;position:relative;z-index:5;
+  background:linear-gradient(145deg,#1d251f,#060806 65%);
+  border:1px solid #334339;
+  box-shadow:0 55px 130px #000,0 0 80px rgba(61,255,95,.11),inset 0 0 20px rgba(255,255,255,.025);
+  transform:rotate(1.4deg)
+}
+.phone:before{
+  content:"";position:absolute;left:50%;top:9px;transform:translateX(-50%);
+  width:94px;height:19px;border-radius:0 0 14px 14px;background:#050706;z-index:9
+}
+.screen{
+  width:100%;height:100%;border-radius:35px;overflow:hidden;background:#e8f2e5;border:1px solid #213126;
+  position:relative
+}
+.screen img{width:100%;height:100%;display:block;object-fit:cover;object-position:top center}
+.livechip{
+  position:absolute;z-index:10;right:-7px;top:18%;
+  padding:9px 12px;border-radius:10px;border:1px solid rgba(255,196,77,.32);
+  background:rgba(24,18,7,.8);color:var(--amber);font:900 10px ui-monospace,monospace;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);transform:rotate(-5deg)
+}
+.realui{
+  position:absolute;z-index:10;left:-12px;bottom:16%;
+  padding:8px 11px;border-radius:10px;border:1px solid rgba(131,255,116,.22);
+  background:rgba(5,12,7,.82);color:var(--green);font:900 10px ui-monospace,monospace;
+  transform:rotate(4deg)
+}
+
+.section{padding:96px 0;border-top:1px solid rgba(255,255,255,.045)}
+.kicker{color:var(--green);font:900 11px ui-monospace,monospace;letter-spacing:.15em;text-transform:uppercase}
+.section h2{font-size:clamp(38px,5vw,64px);letter-spacing:-.055em;line-height:.98;margin:12px 0 15px}
+.desc{color:var(--muted);max-width:760px;line-height:1.7}
+.grid2{display:grid;grid-template-columns:1.08fr .92fr;gap:18px;margin-top:38px}
+.card{
+  border:1px solid var(--line);border-radius:24px;padding:26px;
+  background:linear-gradient(145deg,rgba(15,24,18,.96),rgba(7,11,8,.96));
+  box-shadow:var(--shadow);position:relative;overflow:hidden
+}
+.card:before{
+  content:"";position:absolute;width:240px;height:240px;right:-90px;top:-110px;border-radius:50%;
+  background:rgba(131,255,116,.08);filter:blur(70px)
+}
+.card.amber:before{background:rgba(255,196,77,.07)}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.badge{
+  padding:7px 9px;border-radius:999px;border:1px solid #26372a;
+  color:#abc0ae;font:900 10px ui-monospace,monospace
+}
+.badge.green{color:var(--green);border-color:rgba(131,255,116,.28);background:rgba(131,255,116,.05)}
+.badge.amber{color:var(--amber);border-color:rgba(255,196,77,.28);background:rgba(255,196,77,.05)}
+.version{font-size:38px;letter-spacing:-.04em;font-weight:1000}
+.codename{margin-top:4px;color:#dbe7dd;font-size:17px}
+.card p{color:var(--muted);line-height:1.65}
+.filemeta{display:flex;gap:18px;flex-wrap:wrap;margin:20px 0;color:#9aab9d;font:800 11px ui-monospace,monospace}
+.releaseButtons{display:flex;gap:10px;flex-wrap:wrap}
+.smallnote{margin-top:12px;color:#6f8074;font-size:12px}
+
+.featureGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:38px}
+.feature{
+  border:1px solid var(--line);border-radius:18px;padding:20px;background:#090e0b;min-height:154px
+}
+.fnum{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  border:1px solid rgba(131,255,116,.22);background:rgba(131,255,116,.035);
+  color:var(--green);font:900 12px ui-monospace,monospace;margin-bottom:14px
+}
+.feature b{display:block;margin-bottom:7px}
+.feature span{font-size:13px;line-height:1.55;color:var(--muted)}
+
+.timeline{margin-top:40px;position:relative}
+.timeline:before{
+  content:"";position:absolute;left:17px;top:0;bottom:0;width:1px;
+  background:linear-gradient(var(--green),#203126 62%,transparent)
+}
+.titem{position:relative;padding:0 0 31px 56px}
+.tdot{
+  position:absolute;left:8px;top:4px;width:19px;height:19px;border-radius:50%;
+  background:#0d150f;border:4px solid #2f5637;box-shadow:0 0 0 4px #081009
+}
+.titem:first-child .tdot{border-color:var(--green);box-shadow:0 0 18px rgba(131,255,116,.2)}
+.thead{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tver{font-size:22px;font-weight:1000}
+.ttext{margin-top:8px;color:var(--muted);line-height:1.6;max-width:780px}
+
+.cta{
+  margin-top:34px;padding:30px;border:1px solid rgba(131,255,116,.18);border-radius:25px;
+  background:
+   radial-gradient(460px 210px at 82% 0%,rgba(131,255,116,.09),transparent 65%),
+   linear-gradient(145deg,#0b120e,#080c09);
+  display:flex;align-items:center;justify-content:space-between;gap:30px
+}
+.cta h3{font-size:clamp(26px,4vw,44px);margin:0 0 8px;letter-spacing:-.04em}
+.cta p{margin:0;color:var(--muted)}
+.footer{padding:48px 0 62px;border-top:1px solid rgba(255,255,255,.05);color:var(--muted)}
+.footerin{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.footerBrand{display:flex;align-items:center;gap:10px;color:#e7f2e9;font-weight:950}
+
+@media(max-width:940px){
+  .links{display:none}
+  .hero{grid-template-columns:1fr;gap:48px;padding-top:52px}
+  .phoneStage{min-height:610px}
+  .grid2{grid-template-columns:1fr}
+  .featureGrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:620px){
+  .wrap{width:min(100% - 24px,1180px)}
+  .navin{height:62px}
+  .status{font-size:10px}
+  .hero{padding:42px 0 56px;min-height:auto}
+  h1{font-size:67px}
+  .heroTitle{font-size:22px}
+  .lead{font-size:14px}
+  .actions{display:grid;grid-template-columns:1fr}
+  .btn{width:100%}
+  .phoneStage{min-height:580px;margin-top:-12px}
+  .ringA{width:420px;height:420px}.ringB{width:350px;height:350px}.ringC{width:285px;height:285px}
+  .phone{width:min(326px,91vw);border-radius:40px}
+  .livechip{right:-3px}
+  .realui{left:-4px}
+  .section{padding:72px 0}
+  .featureGrid{grid-template-columns:1fr}
+  .card{padding:21px}
+  .version{font-size:32px}
+  .cta{align-items:flex-start;flex-direction:column}
+  .footerin{align-items:flex-start;flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style>
+<link rel="manifest" href="site.webmanifest">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap navin">
+    <a class="brand" href="#top"><span class="brandmark"></span><span>KobIgo</span></a>
+    <div class="links">
+      <a href="#download">Скачать</a>
+      <a href="#features">Возможности</a>
+      <a href="#versions">Версии</a>
+    </div>
+    <div class="status"><span class="dot"></span>ANDROID 1.0.54</div>
+  </div>
+</nav>
+
+<main id="top">
+<section>
+<div class="wrap hero">
+  <div>
+    <div class="eyebrow"><i></i> снова в сети</div>
+    <h1>Kob<span class="igo">Igo</span></h1>
+    <div class="heroTitle">Тот самый вайб ICQ и Java-телефонов — <span class="yellow">но уже наш.</span></div>
+    <p class="lead">
+      KobIgo — живой мессенджер с личными чатами, общим чатом, голосовыми, фото, видео,
+      видеокружками, аватарками, Mood-статусами и своим характером. На сайте телефон показывает
+      <b>настоящий интерфейс приложения</b>, а не выдуманный макет.
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="downloads/KobIgo_1.0.54_CHAT_RESTORE_FIX.apk" download>Скачать Android 1.0.54 ↓</a>
+      <a class="btn" href="https://kob-igo-web-1050-pwa-1-zip-1--myttbitss.replit.app" target="_blank" rel="noopener">Открыть Web 1.0.50 ↗</a>
+    </div>
+    <div class="quickmeta">current / android 1.0.54 · web 1.0.50 · rollback 1.0.49</div>
+  </div>
+
+  <div class="phoneStage">
+    <div class="ringA"></div><div class="ringB"></div><div class="ringC"></div><div class="pulse"></div>
+    <div class="phone">
+      <div class="screen"><img src="assets/kobigo-real-ui.jpg" alt="Настоящий интерфейс KobIgo"></div>
+      <div class="livechip">● LIVE UI</div>
+      <div class="realui">REAL KOBIGO SCREEN</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="section" id="download">
+<div class="wrap">
+  <div class="kicker">release channel</div>
+  <h2>Актуальные версии</h2>
+  <p class="desc">Android и Web сейчас развиваются отдельными ветками, поэтому на сайте честно показываем их реальные номера версий.</p>
+
+  <div class="grid2">
+    <article class="card">
+      <div class="badges"><span class="badge green">● CURRENT</span><span class="badge">ANDROID</span><span class="badge">APK</span></div>
+      <div class="version">KobIgo 1.0.54</div>
+      <div class="codename">Chat Restore Fix</div>
+      <p>Текущая тестируемая Android-сборка. В ней восстановлен рабочий чат после anti-blink фикса, сохранены аватарки, рингтоны и GIF-эксперименты.</p>
+      <div class="filemeta"><span>APK</span><span>Android</span><span>актуальная ветка</span></div>
+      <div class="releaseButtons">
+        <a class="btn green" href="downloads/KobIgo_1.0.54_CHAT_RESTORE_FIX.apk" download>Скачать APK</a>
+      </div>
+    </article>
+
+    <article class="card amber">
+      <div class="badges"><span class="badge amber">WEB LIVE</span><span class="badge">PWA</span><span class="badge">1.0.50</span></div>
+      <div class="version">Web 1.0.50</div>
+      <div class="codename">Avatars + 16-bit Circle</div>
+      <p>Текущая опубликованная веб-версия. Открывается в браузере и использует общий Supabase backend.</p>
+      <div class="filemeta"><span>WEB</span><span>PWA</span><span>live</span></div>
+      <div class="releaseButtons">
+        <a class="btn primary" href="https://kob-igo-web-1050-pwa-1-zip-1--myttbitss.replit.app" target="_blank" rel="noopener">Открыть Web</a>
+      </div>
+    </article>
+  </div>
+
+  <div class="cta">
+    <div>
+      <h3>Нужна стабильная точка отката?</h3>
+      <p>KobIgo 1.0.49 оставляем как проверенную резервную Android-версию.</p>
+    </div>
+    <a class="btn" href="downloads/KobIgo_1.0.49_WORKING_BACKUP.apk" download>Скачать 1.0.49</a>
+  </div>
+</div>
+</section>
+
+<section class="section" id="features">
+<div class="wrap">
+  <div class="kicker">inside kobigo</div>
+  <h2>Что уже есть внутри</h2>
+  <div class="featureGrid">
+    <div class="feature"><div class="fnum">01</div><b>Личные чаты</b><span>Контакты, диалоги, статусы доставки и чтения.</span></div>
+    <div class="feature"><div class="fnum">02</div><b>Общий_Чат</b><span>Общий чат для пользователей KobIgo.</span></div>
+    <div class="feature"><div class="fnum">03</div><b>Голосовые</b><span>Запись и отправка голосовых сообщений.</span></div>
+    <div class="feature"><div class="fnum">04</div><b>Фото и видео</b><span>Медиа прямо внутри диалога.</span></div>
+    <div class="feature"><div class="fnum">05</div><b>Видеокружки</b><span>Круглые видеосообщения и 16-bit таймер.</span></div>
+    <div class="feature"><div class="fnum">06</div><b>Аватарки</b><span>Готовые варианты и развитие собственного фото.</span></div>
+    <div class="feature"><div class="fnum">07</div><b>Mood</b><span>«Музыка», «Работаю», «Сплю», «Не бесить» и другие состояния.</span></div>
+    <div class="feature"><div class="fnum">08</div><b>Рингтоны</b><span>Развиваем механику собственного рингтона звонящего.</span></div>
+    <div class="feature"><div class="fnum">09</div><b>GIF</b><span>Заложена база для анимированных GIF в чате.</span></div>
+  </div>
+</div>
+</section>
+
+<section class="section" id="versions">
+<div class="wrap">
+  <div class="kicker">version history</div>
+  <h2>История разработки</h2>
+  <div class="timeline">
+    <div class="titem"><span class="tdot"></span><div class="thead"><span class="tver">1.0.54</span><span class="badge green">CURRENT</span></div><div class="ttext">Chat Restore Fix — восстановление рабочего рендера чата после anti-blink эксперимента.</div></div>
+    <div class="titem"><span class="tdot"></span><div class="thead"><span class="tver">1.0.53</span><span class="badge">TEST</span></div><div class="ttext">Эксперимент с собственными рингтонами и фото профиля.</div></div>
+    <div class="titem"><span class="tdot"></span><div class="thead"><span class="tver">1.0.52</span><span class="badge">FIX</span></div><div class="ttext">Avatar Canvas Fix — исправление выбора встроенных аватарок.</div></div>
+    <div class="titem"><span class="tdot"></span><div class="thead"><span class="tver">1.0.50</span><span class="badge">WEB</span></div><div class="ttext">Avatars + 16-bit Circle — текущая опубликованная Web/PWA ветка.</div></div>
+    <div class="titem"><span class="tdot"></span><div class="thead"><span class="tver">1.0.49</span><span class="badge amber">ROLLBACK</span></div><div class="ttext">Проверенная резервная Android-версия с чистым видеокружком.</div></div>
+  </div>
+</div>
+</section>
+</main>
+
+<footer class="footer">
+<div class="wrap footerin">
+  <div class="footerBrand"><span class="brandmark" style="width:30px;height:30px;border-radius:9px"></span>KobIgo</div>
+  <div>KobIgo — снова в сети. Версия за версией.</div>
+</div>
+</footer>
+</body>
+</html>
